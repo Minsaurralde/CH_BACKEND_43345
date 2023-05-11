@@ -1,0 +1,29 @@
+[
+	{
+		"id": 1,
+		"title": "vestido",
+		"description": "Este es un producto prueba",
+		"price": 5000,
+		"thumbnail": "Sin imagen",
+		"code": "1111",
+		"stock": 25
+	},
+	{
+		"id": 2,
+		"title": "pantalon",
+		"description": "Este es un producto prueba",
+		"price": 2000,
+		"thumbnail": "Sin imagen",
+		"code": "2222",
+		"stock": 25
+	},
+	{
+		"id": 3,
+		"title": "remera",
+		"description": "Este es un producto prueba",
+		"price": 900,
+		"thumbnail": "Sin imagen",
+		"code": "3333",
+		"stock": 25
+	}
+]
