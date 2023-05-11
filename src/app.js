@@ -28,7 +28,7 @@ app.get("/products/:pid", async (req, res) => {
   //obtengo los datos
   const data = await instancia1.getProductById(prodId);
 
-  res.send(data ? data : "id inexistente");
+  res.send(data ? data : { error: "id inexistente" });
 });
 
 app.listen(8080, () => {
