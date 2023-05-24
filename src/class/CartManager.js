@@ -75,7 +75,7 @@ class CartManager {
     if (existsProd == -1) {
       prodList.push({ product: prodID, quantity: Qty });
     } else {
-      prodList[existsProd].quantity += 1;
+      prodList[existsProd].quantity += Qty;
     }
 
     await fs.promises.writeFile(this.path, JSON.stringify(carts, null, "\t"));
