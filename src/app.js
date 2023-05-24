@@ -1,36 +1,19 @@
 import express from "express";
-import ProductManager from "./class/ProductManager.js";
+import productsRouter from "./routes/products.router.js";
+import cartsRouter from "./routes/carts.router.js";
+import __dirname from "./constants/dirnames.js";
 
 const app = express();
-//NOTA: que diferencia hace poner la siguiente linea de codigo?
+//MEMO: "urlencoded" y "json" middlewate de express necesario para obtener información de los query parameters y leer req json
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
-// Debe leer el archivo de productos y devolverlos dentro de un objeto. query param = limit determina el maximo de obj en la resp.
-app.get("/products", async (req, res) => {
-  const limit = Number(req.query.limit);
-  //creo instancia de la clase
-  const instancia1 = new ProductManager("prodmanager.txt");
-  //obtengo los datos
-  const data = await instancia1.getProducts();
+// Indicamos que el public es estatico. En la ruta raiz se mostrara el index.html
+// app.use(express.static(__dirname + "/public"));
 
-  if (limit) {
-    data.length > limit && data.splice(0, limit + 1);
-  }
+app.use("/api/products/", productsRouter);
+app.use("/api/carts/", cartsRouter);
 
-  res.send(data);
-});
-
-// Debe devolver el objeto que coincida con el id que llega por params.
-app.get("/products/:pid", async (req, res) => {
-  const prodId = Number(req.params.pid);
-  //creo instancia de la clase
-  const instancia1 = new ProductManager("prodmanager.txt");
-  //obtengo los datos
-  const data = await instancia1.getProductById(prodId);
-
-  res.send(data ? data : { error: "id inexistente" });
-});
-
-app.listen(8080, () => {
-  console.log("server ready");
+const server = app.listen(8080, () => {
+  console.log("server ready on port 8080");
 });
