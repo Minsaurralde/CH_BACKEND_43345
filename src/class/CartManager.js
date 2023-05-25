@@ -5,26 +5,6 @@ class CartManager {
     this.path = `./src/local_db/${path}`;
   }
 
-  addCart = async () => {
-    const carts = await this.getCarts(); // lista de productos existente
-
-    // - Al agregarlo, se genera un id autoincrementable.
-    let idmax = 1;
-    if (carts.length) {
-      idmax = Math.max(...carts.map((element) => element.id)) + 1;
-    }
-    const newObject = {
-      id: idmax,
-      products: [],
-    };
-
-    carts.push(newObject); // actualizo lista
-
-    await fs.promises.writeFile(this.path, JSON.stringify(carts, null, "\t"));
-
-    return console.info("addProduct responde: Ingresado con exito!");
-  };
-
   getCarts = async () => {
     let carts = [];
 
@@ -52,6 +32,26 @@ class CartManager {
     return found;
   };
 
+  addCart = async () => {
+    const carts = await this.getCarts(); // lista de productos existente
+
+    // - Al agregarlo, se genera un id autoincrementable.
+    let idmax = 1;
+    if (carts.length) {
+      idmax = Math.max(...carts.map((element) => element.id)) + 1;
+    }
+    const newObject = {
+      id: idmax,
+      products: [],
+    };
+
+    carts.push(newObject); // actualizo lista
+
+    await fs.promises.writeFile(this.path, JSON.stringify(carts, null, "\t"));
+
+    return console.info("addProduct responde: Ingresado con exito!");
+  };
+
   addProductCart = async (cartID, prodID, Qty) => {
     if (!cartID || !prodID || !Qty) {
       throw new Error("addProductCart responde: faltan datos obligatorios");
@@ -68,10 +68,8 @@ class CartManager {
     const index = carts.findIndex((el) => el.id == cartID);
 
     const prodList = carts[index].products;
-    console.log("productlist: ", prodList);
 
     const existsProd = prodList.findIndex((el) => el.product === prodID);
-    console.log("existsProd: ", existsProd);
     if (existsProd == -1) {
       prodList.push({ product: prodID, quantity: Qty });
     } else {
