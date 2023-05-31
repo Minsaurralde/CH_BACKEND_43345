@@ -16,7 +16,7 @@ router.get("/", async (req, res) => {
     data.length > limit && data.splice(0, limit + 1);
   }
 
-  res.send(data);
+  res.status(200).send(data);
 });
 
 // Debe devolver el objeto que coincida con el id que llega por params.
@@ -25,9 +25,12 @@ router.get("/:pid", async (req, res) => {
   //creo instancia de la clase
   const instancia1 = new ProductManager("productos.txt");
   //obtengo los datos
-  const data = await instancia1.getProductById(prodId);
-
-  res.send(data ? data : { error: "id inexistente" });
+  try {
+    const data = await instancia1.getProductById(prodId);
+    res.status(200).send(data);
+  } catch (error) {
+    res.status(400).send({ error: error.message });
+  }
 });
 
 // NUEVO!!! Debe agregar un nuevo prod con un id autogenerado
