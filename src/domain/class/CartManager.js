@@ -2,7 +2,7 @@ import fs from "fs";
 
 class CartManager {
   constructor(path) {
-    this.path = `./src/local_db/${path}`;
+    this.path = `./src/db_local/${path}`;
   }
 
   getCarts = async () => {

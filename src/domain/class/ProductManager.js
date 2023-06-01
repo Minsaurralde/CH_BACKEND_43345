@@ -2,7 +2,7 @@ import fs from "fs";
 
 class ProductManager {
   constructor(path) {
-    this.path = `./src/local_db/${path}`;
+    this.path = `./src/db_local/${path}`;
   }
 
   getProducts = async () => {
@@ -49,17 +49,17 @@ class ProductManager {
     }
     // - Al agregarlo, se genera un id autoincrementable.
     let idmax = 1;
-    if (carts.length) {
+    if (products.length) {
       idmax = Math.max(...products.map((element) => element.id)) + 1;
     }
     const newObject = {
       id: idmax,
       title,
       description,
-      price,
+      price: Number(price),
       thumbnail,
-      code,
-      stock,
+      code: Number(code),
+      stock: Number(stock),
       status,
     };
 
@@ -70,7 +70,7 @@ class ProductManager {
       JSON.stringify(products, null, "\t")
     );
 
-    return console.info("addProduct responde: Ingresado con exito!");
+    return newObject;
   };
 
   updateProduct = async (obj) => {

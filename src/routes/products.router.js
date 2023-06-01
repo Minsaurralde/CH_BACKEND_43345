@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { validateProduct } from "../middleware/validateProduct.js";
-import ProductManager from "../class/ProductManager.js";
+import ProductManager from "../domain/class/ProductManager.js";
 
 const router = Router();
 
@@ -38,7 +38,6 @@ router.post("/", validateProduct, async (req, res) => {
   const newProduct = req.body;
   //creo instancia de la clase
   const instancia1 = new ProductManager("productos.txt");
-
   //inserto los datos
   try {
     await instancia1.addProduct(newProduct);
