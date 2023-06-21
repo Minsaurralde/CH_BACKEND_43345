@@ -4,6 +4,14 @@ export const validateProduct = (req, res, next) => {
   if (!title || !description || !price || !code || !stock) {
     res.send({ error: "faltan datos obligatorios" });
   } else {
+    req.body = {
+      title,
+      description,
+      price,
+      thumbnail: req.body.thumbnail || "Sin imagen",
+      code,
+      stock,
+    };
     next();
   }
 };

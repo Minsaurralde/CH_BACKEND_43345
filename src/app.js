@@ -1,13 +1,15 @@
 import express from "express";
 import handlebars from "express-handlebars";
 import { Server } from "socket.io";
+import mongoose from "mongoose";
 
 import viewsRouter from "./routes/views.router.js";
 import productsRouter from "./routes/products.router.js";
 import cartsRouter from "./routes/carts.router.js";
 
-import ProductManager from "./domain/class/ProductManager.js";
-import __dirname from "./domain/constants/dirnames.js";
+import ProductManager from "./daos/mongo/class/ProductManager.js";
+import __dirname from "./constants/dirnames.js";
+import mongoUri from "./daos/mongo/constants/mongourl.js";
 
 const app = express();
 //MEMO: "urlencoded" y "json" middlewate de express necesario para obtener información de los query parameters y leer req json
@@ -22,23 +24,19 @@ app.set("view engine", "handlebars"); // 3 - setear para que el server renderice
 // Indicamos que el public es estatico. En la ruta raiz se mostrara el index.html
 app.use(express.static(`${__dirname}/public`));
 
-//RUTAS DISPONIBLES
-app.use("/", viewsRouter);
-app.use("/api/products/", productsRouter);
-app.use("/api/carts/", cartsRouter);
-
 const httpServer = app.listen(8080, () =>
   console.log("server ready on port 8080")
 );
 
-const socketServer = new Server(httpServer);
+const DBconection = mongoose.connect(mongoUri);
 
+const socketServer = new Server(httpServer);
 socketServer.on("connection", (socket) => {
   console.log("Nuevo cliente conectado");
 
   socket.on("new-product", async (newProduct) => {
     try {
-      const instancia1 = new ProductManager("productos.txt");
+      const instancia1 = new ProductManager();
       const res = await instancia1.addProduct(newProduct);
 
       //si todo sale bien envio el update al cliente
@@ -49,3 +47,14 @@ socketServer.on("connection", (socket) => {
     }
   });
 });
+
+//midleware para agregar el servidor de websocket en todas las pegadas (las rutas deben ir debajo)
+app.use((req, res, next) => {
+  req.socketServer = socketServer;
+  next();
+});
+
+//RUTAS DISPONIBLES
+app.use("/", viewsRouter);
+app.use("/api/products/", productsRouter);
+app.use("/api/carts/", cartsRouter);
