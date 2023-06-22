@@ -19,7 +19,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-// Debe listar los productos que pertenezcan al carrito con el parámetro cid.
+// Debe listar los productos que pertenezcan al carrito.
 router.get("/", async (req, res) => {
   //creo instancia de la clase
   const instancia1 = new CartManager();

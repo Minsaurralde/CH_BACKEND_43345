@@ -4,12 +4,14 @@ import { Server } from "socket.io";
 import mongoose from "mongoose";
 
 import viewsRouter from "./routes/views.router.js";
-import productsRouter from "./routes/products.router.js";
 import cartsRouter from "./routes/carts.router.js";
+import productsRouter from "./routes/products.router.js";
+import chatsRouter from "./routes/chats.router.js";
 
 import ProductManager from "./daos/mongo/class/ProductManager.js";
 import __dirname from "./constants/dirnames.js";
 import mongoUri from "./daos/mongo/constants/mongourl.js";
+import MsgManager from "./daos/mongo/class/MsgManager.js";
 
 const app = express();
 //MEMO: "urlencoded" y "json" middlewate de express necesario para obtener información de los query parameters y leer req json
@@ -32,7 +34,7 @@ const DBconection = mongoose.connect(mongoUri);
 
 const socketServer = new Server(httpServer);
 socketServer.on("connection", (socket) => {
-  console.log("Nuevo cliente conectado");
+  console.log("New conection id: " + socket.id);
 
   socket.on("new-product", async (newProduct) => {
     try {
@@ -46,15 +48,33 @@ socketServer.on("connection", (socket) => {
       socket.emit("error", error.message);
     }
   });
+
+  socket.on("chat-authenticated", async (newUser) => {
+    socket.broadcast.emit("alert-chat-user", newUser);
+  });
+  socket.on("chat-message", async (newMessage) => {
+    const { user, message } = newMessage;
+    try {
+      const instancia1 = new MsgManager();
+      const res = await instancia1.addMsg(user, message);
+
+      //si todo sale bien imprimo el msj en todos los clientes
+      socketServer.emit("chat-print", res);
+    } catch (error) {
+      //si hay un error envio el detalle del error
+      socket.emit("error", error.message);
+    }
+  });
 });
 
-//midleware para agregar el servidor de websocket en todas las pegadas (las rutas deben ir debajo)
-app.use((req, res, next) => {
-  req.socketServer = socketServer;
-  next();
-});
+//codigo para agregar el servidor de websocket en todas las pegadas (las rutas deben ir debajo)
+// app.use((req, res, next) => {
+//   req.socketServer = socketServer;
+//   next();
+// });
 
 //RUTAS DISPONIBLES
 app.use("/", viewsRouter);
-app.use("/api/products/", productsRouter);
 app.use("/api/carts/", cartsRouter);
+app.use("/api/products/", productsRouter);
+app.use("/api/chats/", chatsRouter);
