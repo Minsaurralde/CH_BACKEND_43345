@@ -1,0 +1,77 @@
+{{! OPCIONES FILTRO Y ORDENADO }}
+<div class="row px-5 py-3">
+  <div class="container" style="max-width: 1140px;">
+    <div class="row">
+
+      <div class="col-lg-2 col-md-2 d-flex align-items-center">
+        <div class="section-title">
+          <h4>Product List</h4>
+        </div>
+      </div>
+
+      <div class="col-lg-8 col-md-8 d-flex align-items-center">
+        <ul class="filter__controls">
+          <li class="active mixitup-control-active" data-filter="*">All</li>
+          <li data-filter=".women" class="">Women’s</li>
+          <li data-filter=".men" class="">Men’s</li>
+        </ul>
+      </div>
+
+      <div
+        class="col-lg-2 col-md-2 d-flex justify-content-end align-items-center"
+      >
+        <div class="dropdown">
+          <button
+            class="btn btn-secondary dropdown-toggle"
+            type="button"
+            id="dropdownMenuButton"
+            data-bs-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
+            Sort by
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" href="#">Price: Low to high</a>
+            <a class="dropdown-item" href="#">Price: high to low</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+{{#if hasProduct}}
+  <div class="container">
+    <div
+      class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center"
+    >
+      {{#each product}}
+        <div class="col mb-5">
+
+          <div id="{{this._id}}" class="card" style="width: 18rem">
+            {{! product image }}
+            <img src="{{this.thumbnail}}" class="card-img-top" alt="..." />
+            {{! product details }}
+            <div class="card-body">
+              {{! name }}
+              <h5 class="card-title">{{this.title}}</h5>
+              {{! price }}
+              ${{this.price}}
+            </div>
+            {{! product actions }}
+            <div class="card-footer">
+              <button type="button" class="btn btn-secondary" disabled>View
+                details</button>
+              <button type="button" class="btn btn-primary">Add to cart</button>
+            </div>
+          </div>
+        </div>
+
+      {{/each}}
+    </div>
+  </div>
+{{else}}
+  <p>No se encontraron productos ...</p>
+{{/if}}

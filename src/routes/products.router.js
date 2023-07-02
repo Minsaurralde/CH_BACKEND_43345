@@ -6,14 +6,15 @@ const router = Router();
 
 // Debe leer el archivo de productos y devolverlos dentro de un objeto. query param = limit determina el maximo de obj en la resp.
 router.get("/", async (req, res) => {
-  const limit = Number(req.query.limit);
+  const { limit, page, query, sort } = req.query;
+
   //creo instancia de la clase
   const instancia1 = new ProductManager();
   //obtengo los datos
   const data = await instancia1.getProducts();
 
   if (limit) {
-    data.length > limit && data.splice(0, limit + 1);
+    data.length > Number(limit) && data.splice(0, Number(limit) + 1);
   }
 
   res.status(200).send(data);
