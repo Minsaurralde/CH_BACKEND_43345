@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import autopopulate from "mongoose-autopopulate";
 
 const nameCollection = "carts"; // asi se llama la coleccion en la base de datos
 
@@ -10,11 +11,14 @@ const customScheema = new mongoose.Schema({
         product: {
           type: mongoose.Schema.Types.ObjectId,
           ref: "products", // NOTA: que es esta referencia? de donde sale?
+          autopopulate: true,
         },
         quantity: Number,
       },
     ],
+    default: [],
   },
 });
 
+customScheema.plugin(autopopulate);
 export const cartModel = mongoose.model(nameCollection, customScheema);
