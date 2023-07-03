@@ -10,10 +10,10 @@
       </div>
 
       <div class="col-lg-8 col-md-8 d-flex align-items-center">
-        <ul class="filter__controls">
-          <li class="active mixitup-control-active" data-filter="*">All</li>
-          <li data-filter=".women" class="">Women’s</li>
-          <li data-filter=".men" class="">Men’s</li>
+        <ul id="filter__controls" class="filter__controls">
+          <li class="active" data-filter="*">All</li>
+          <li class="" data-filter=".women">Women’s</li>
+          <li class="" data-filter=".men">Men’s</li>
         </ul>
       </div>
 
@@ -73,6 +73,7 @@
     </div>
   </div>
 
+  {{!-- pagination --}}
   <nav aria-label="Page navigation example">
     <ul class="pagination justify-content-center">
       <li class="page-item">
