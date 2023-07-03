@@ -4,6 +4,7 @@
       <caption>Listado de productos</caption>
       <thead class="table-dark">
         <tr>
+          <th scope="col">Category</th>
           <th scope="col">Title</th>
           <th scope="col">Price</th>
           <th scope="col">Code</th>
@@ -18,6 +19,7 @@
         {{#if showDelete}}
           {{#each product.payload}}
             <tr id="{{this._id}}">
+              <td>{{this.category}}</td>
               <td>{{this.title}}</td>
               <td>{{this.price}}</td>
               <td>{{this.code}}</td>
@@ -30,6 +32,7 @@
         {{else}}
           {{#each product.payload}}
             <tr id="{{this._id}}">
+              <td>{{this.category}}</td>
               <td>{{this.title}}</td>
               <td>{{this.price}}</td>
               <td>{{this.code}}</td>

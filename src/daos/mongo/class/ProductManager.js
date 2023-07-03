@@ -44,14 +44,18 @@ class ProductManager {
         hasPrevPage: queryResult.hasPrevPage, // Indicador para saber si la página previa existe
         hasNextPage: queryResult.hasNextPage, // Indicador para saber si la página siguiente existe.
         prevLink: queryResult.hasPrevPage
-          ? `localhost:8080?limit=${limit}&page=${
+          ? `http://localhost:8080?limit=${limit}&page=${
               page - 1
-            }&sort=${sort}&filter${filter}&filterVal=${filterVal}`
+            }&sort=${sort}&filter=${filter ? filter : ""}&filterVal=${
+              filterVal ? filterVal : ""
+            }`
           : null, // Link directo a la página previa (null si hasPrevPage=false)
         nextLink: queryResult.hasNextPage
-          ? `localhost:8080?limit=${limit}&page=${
+          ? `http://localhost:8080?limit=${limit}&page=${
               page + 1
-            }&sort=${sort}&filter${filter}&filterVal=${filterVal}`
+            }&sort=${sort}&filter=${filter ? filter : ""}&filterVal=${
+              filterVal ? filterVal : ""
+            }`
           : null, // Link directo a la página siguiente (null si hasNextPage=false)
       };
     } catch (error) {

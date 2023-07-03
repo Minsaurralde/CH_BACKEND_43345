@@ -12,6 +12,7 @@ htmlForm.addEventListener("submit", (e) => {
   let newData = {
     title: "",
     description: "",
+    category: "",
     price: "",
     thumbnail: "",
     code: "",
