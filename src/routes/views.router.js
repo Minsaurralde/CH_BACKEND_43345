@@ -9,7 +9,7 @@ router.get("/", async (req, res) => {
   const instancia1 = new ProductManager();
   //obtengo los datos
   const data = await instancia1.getProducts();
-  const hasData = !!data.length;
+  const hasData = !!data.payload.length;
 
   res.render("home", { hasProduct: hasData, showDelete: false, product: data });
 });
@@ -19,7 +19,7 @@ router.get("/realtimeproducts", async (req, res) => {
   const instancia1 = new ProductManager();
   //obtengo los datos
   const data = await instancia1.getProducts();
-  const hasData = !!data.length;
+  const hasData = !!data.payload.length;
 
   res.render("realTimeProducts", {
     hasProduct: hasData,

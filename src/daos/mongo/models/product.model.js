@@ -6,6 +6,7 @@ const nameCollection = "products"; // asi se llama la coleccion en la base de da
 const customScheema = new mongoose.Schema({
   //aqui escribimos todas las propiedades que debe tener nuestro modelo
   title: { type: String, required: true },
+  category: { type: String, required: true },
   description: { type: String, required: true },
   price: { type: Number, required: true },
   thumbnail: { type: String, required: true },

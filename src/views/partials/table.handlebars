@@ -16,7 +16,7 @@
       </thead>
       <tbody id="product-list">
         {{#if showDelete}}
-          {{#each product}}
+          {{#each product.payload}}
             <tr id="{{this._id}}">
               <td>{{this.title}}</td>
               <td>{{this.price}}</td>
@@ -28,7 +28,7 @@
             </tr>
           {{/each}}
         {{else}}
-          {{#each product}}
+          {{#each product.payload}}
             <tr id="{{this._id}}">
               <td>{{this.title}}</td>
               <td>{{this.price}}</td>
