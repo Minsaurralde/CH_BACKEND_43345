@@ -12,7 +12,6 @@ class ProductManager {
       whereOptions = { [filter]: filterVal }; // para hacer dinamica la key se utiliza este tipo de notacion en objetos
     }
 
-    console.log("sort: ", typeof sort);
     let result = {
       status: undefined,
       payload: {},
@@ -30,7 +29,7 @@ class ProductManager {
       const queryResult = await productModel.paginate(whereOptions, {
         limit: limit,
         page: page,
-        sort: { price: sort.toString() },
+        sort: sort ? { price: sort.toString() } : "",
         lean: true,
       });
 

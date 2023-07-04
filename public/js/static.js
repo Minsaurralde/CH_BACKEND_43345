@@ -2,23 +2,29 @@ const activeSort = () => {
   const params = new URLSearchParams(window.location.search);
   const sortValue = params.get("sort");
 
-  const coleccion = document.querySelectorAll("#dropdownMenuButton option");
-  for (let index = 0; index < coleccion.length; index++) {
-    const element = coleccion[index];
+  if (sortValue) {
+    const coleccion = document.querySelectorAll("#dropdownMenuButton option");
+    for (let index = 0; index < coleccion.length; index++) {
+      const element = coleccion[index];
 
-    element.value == sortValue
-      ? element.setAttribute("selected", true)
-      : element.removeAttribute("selected");
+      element.value == sortValue
+        ? element.setAttribute("selected", true)
+        : element.removeAttribute("selected");
+    }
   }
 };
 
 const handleSort = (e) => {
   const { target } = e;
-  const sort = target.value.toString();
+  const sort = target.value;
 
   const params = new URLSearchParams(window.location.search);
-  params.delete("page");
-  params.set("sort", sort);
+  if (sort == 0) {
+    params.delete("sort");
+  } else {
+    params.delete("page");
+    params.set("sort", sort.toString());
+  }
 
   location.replace(`${window.location.pathname}?${params}`);
 };
