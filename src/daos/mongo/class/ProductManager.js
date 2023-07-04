@@ -5,14 +5,14 @@ import mongoUri from "../constants/mongourl.js";
 class ProductManager {
   DBconection = mongoose.connect(mongoUri);
 
-  getProducts = async (limit = 10, page = 1, sort = 0, filter, filterVal) => {
+  getProducts = async (limit = 10, page = 1, sort = "", filter, filterVal) => {
     let whereOptions = {};
 
     if (filter && filterVal) {
       whereOptions = { [filter]: filterVal }; // para hacer dinamica la key se utiliza este tipo de notacion en objetos
     }
 
-    console.log("limit: ", limit);
+    console.log("sort: ", typeof sort);
     let result = {
       status: undefined,
       payload: {},
@@ -30,7 +30,7 @@ class ProductManager {
       const queryResult = await productModel.paginate(whereOptions, {
         limit: limit,
         page: page,
-        sort: sort,
+        sort: { price: sort.toString() },
         lean: true,
       });
 

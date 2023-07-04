@@ -8,7 +8,7 @@
           <h4>Product List</h4>
         </div>
       </div>
-
+      {{!-- category --}}
       <div class="col-lg-8 col-md-8 d-flex align-items-center">
         <ul id="filter__controls" class="filter__controls">
           <li class="active" data-filter="*">All</li>
@@ -16,25 +16,19 @@
           <li class="" data-filter=".men">Men’s</li>
         </ul>
       </div>
-
+      {{!-- sort --}}
       <div
         class="col-lg-2 col-md-2 d-flex justify-content-end align-items-center"
       >
-        <div class="dropdown">
-          <button
+        <div>
+          <select 
             class="btn btn-secondary dropdown-toggle"
-            type="button"
             id="dropdownMenuButton"
-            data-bs-toggle="dropdown"
-            aria-haspopup="true"
-            aria-expanded="false"
           >
-            Sort by
-          </button>
-          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <a class="dropdown-item" href="#">Price: Low to high</a>
-            <a class="dropdown-item" href="#">Price: high to low</a>
-          </div>
+            <option value="1"  class="dropdown-item">Price: Low to high</option >
+            <option value="-1" class="dropdown-item">Price: high to low</option >
+          </select >
+          
         </div>
       </div>
 

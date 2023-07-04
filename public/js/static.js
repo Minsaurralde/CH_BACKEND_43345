@@ -1,3 +1,28 @@
+const activeSort = () => {
+  const params = new URLSearchParams(window.location.search);
+  const sortValue = params.get("sort");
+
+  const coleccion = document.querySelectorAll("#dropdownMenuButton option");
+  for (let index = 0; index < coleccion.length; index++) {
+    const element = coleccion[index];
+
+    element.value == sortValue
+      ? element.setAttribute("selected", true)
+      : element.removeAttribute("selected");
+  }
+};
+
+const handleSort = (e) => {
+  const { target } = e;
+  const sort = target.value.toString();
+
+  const params = new URLSearchParams(window.location.search);
+  params.delete("page");
+  params.set("sort", sort);
+
+  location.replace(`${window.location.pathname}?${params}`);
+};
+
 const activeCategory = () => {
   const params = new URLSearchParams(window.location.search);
   const filterValue = params.get("filterVal");
@@ -41,4 +66,9 @@ document
   .querySelector("#filter__controls")
   .addEventListener("click", handleCategory);
 
+document
+  .querySelector("#dropdownMenuButton")
+  .addEventListener("change", handleSort);
+
 activeCategory();
+activeSort();
