@@ -16,6 +16,11 @@ form.addEventListener("submit", (e) => {
       window.location.replace("/");
     } else {
       console.log(result);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Something went wrong! please check your credentials",
+      });
     }
   });
 });
