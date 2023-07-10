@@ -1,3 +1,5 @@
+let currentCart = "";
+
 const activeSort = () => {
   const params = new URLSearchParams(window.location.search);
   const sortValue = params.get("sort");
@@ -63,6 +65,44 @@ const handleCategory = (e) => {
     category == "Men’s" && params.set("filterVal", "Hombre");
   }
   location.replace(`${window.location.pathname}?${params}`);
+};
+
+const addToCart = async (prodID) => {
+  console.log("add: ", prodID);
+
+  if (!currentCart) {
+    const response = await fetch("http://localhost:8080/api/carts/", {
+      method: "POST", // *GET, POST, PUT, DELETE, etc.
+      body: {}, // body data type must match "Content-Type" header
+    });
+    console.log(response);
+  }
+
+  if (currentCart) {
+    const url = `http://localhost:8080/api/carts/${currentCart._id}/product/${prodID}`;
+    try {
+      const response = await fetch(url, {
+        method: "POST", // *GET, POST, PUT, DELETE, etc.
+        body: {}, // body data type must match "Content-Type" header
+      });
+      alert("el item se agrego a tu carrito");
+    } catch (error) {
+      alert(error.toString());
+    }
+  }
+};
+
+const signOut = async () => {
+  try {
+    const response = await fetch("http://localhost:8080/api/sessions/logout", {
+      method: "POST", // *GET, POST, PUT, DELETE, etc.
+      body: {}, // body data type must match "Content-Type" header
+    });
+    console.log(response);
+    window.location.replace("/login");
+  } catch (error) {
+    alert("UPS! ocurrio un error inesperado, reintenta en unos instantes");
+  }
 };
 
 ////////////////////////////////////////////////////////////////////////////

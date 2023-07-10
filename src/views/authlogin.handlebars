@@ -1,0 +1,55 @@
+<div class="d-flex justify-content-center align-items-center vh-100">
+  <div
+    class="bg-white p-5 rounded-5 text-secondary shadow"
+    style="width: 25rem"
+  >
+    <div class="d-flex justify-content-center">
+      <i class="bi bi-person-circle" style="font-size: 7rem"></i>
+    </div>
+    <div class="text-center fs-1 fw-bold">Login</div>
+
+    <form id="loginForm" action="">
+      {{! input email }}
+      <div class="input-group mt-4">
+        <div class="input-group-text bg-primary">
+          <i class="bi bi-person-fill text-white" style="font-size: 1rem"></i>
+        </div>
+        <input
+          class="form-control bg-light"
+          type="email"
+          name="email"
+          placeholder="your-email@example.com"
+        />
+      </div>
+      {{! input password }}
+      <div class="input-group mt-1">
+        <div class="input-group-text bg-primary">
+          <i class="bi bi-lock-fill text-white" style="font-size: 1rem"></i>
+        </div>
+        <input
+          class="form-control bg-light"
+          type="password"
+          name="password"
+          placeholder="Password"
+        />
+      </div>
+      {{! button submit }}
+      <button
+        type="submit"
+        class="btn btn-primary text-white w-100 mt-4 fw-semibold shadow-sm"
+      >
+        SignIn
+      </button>
+    </form>
+
+    <div class="d-flex gap-1 justify-content-center mt-1">
+      <div>Don't have an account?</div>
+      <a
+        href="/register"
+        class="text-decoration-none text-primary fw-semibold"
+      >Register</a>
+    </div>
+  </div>
+</div>
+
+<script src="js/authlogin.js"></script>

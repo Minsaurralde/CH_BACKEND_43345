@@ -12,8 +12,8 @@ router.post("/", async (req, res) => {
 
   //agrego un carrito
   try {
-    await instancia1.addCart();
-    res.status(200).send({ exito: "fue agregado con exito" });
+    const response = await instancia1.addCart();
+    res.status(200).send(response);
   } catch (error) {
     res.status(400).send({ error: error.message });
   }

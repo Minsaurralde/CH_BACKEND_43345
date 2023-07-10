@@ -22,7 +22,12 @@ router.get("/", async (req, res) => {
   );
   const hasData = !!data.payload.length;
 
-  res.render("home", { hasProduct: hasData, showDelete: false, product: data });
+  res.render("home", {
+    hasProduct: hasData,
+    showDelete: false,
+    product: data,
+    user: req.session.user,
+  });
 });
 
 router.get("/realtimeproducts", async (req, res) => {
@@ -41,6 +46,18 @@ router.get("/realtimeproducts", async (req, res) => {
 
 router.get("/chat", async (req, res) => {
   res.render("chat", { data: false });
+});
+
+router.get("/login", async (req, res) => {
+  res.render("authlogin");
+});
+
+router.get("/register", async (req, res) => {
+  res.render("authregister");
+});
+
+router.get("/profile", async (req, res) => {
+  res.render("profile", { user: req.session.user });
 });
 
 export default router;
