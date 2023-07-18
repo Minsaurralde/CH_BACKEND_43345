@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { userModel } from "../daos/mongo/models/users.model.js";
 import { createHash, isValidPassword } from "../utils/bcrypt.js";
+import passport from "passport";
 
 const router = Router();
 
@@ -80,5 +81,21 @@ router.post("/restartPassword", async (req, res) => {
     res.status(500).send({ error: error.message });
   }
 });
+
+router.get(
+  "/github",
+  passport.authenticate("github", { scope: "user:email" }),
+  (req, res) => {}
+);
+
+router.get(
+  "/callback",
+  passport.authenticate("github", { failureRedirect: "/login" }),
+  async (req, res) => {
+    console.log("exito");
+    req.session.user = req.user;
+    res.redirect("/");
+  }
+);
 
 export default router;

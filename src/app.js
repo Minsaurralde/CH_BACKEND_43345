@@ -15,6 +15,8 @@ import ProductManager from "./daos/mongo/class/ProductManager.js";
 import mongoUri from "./daos/mongo/constants/mongourl.js";
 import MsgManager from "./daos/mongo/class/MsgManager.js";
 import __dirname from "./constants/dirnames.js";
+import { intializePassport } from "./config/passport.config.js";
+import passport from "passport";
 
 const app = express();
 
@@ -24,6 +26,8 @@ app.use(express.json());
 
 // Indicamos que el public es estatico. En la ruta raiz se mostrara el index.html
 app.use(express.static(`${__dirname}/public`));
+
+intializePassport();
 
 const DBconection = mongoose.connect(mongoUri);
 app.use(
@@ -39,6 +43,7 @@ app.use(
   })
 );
 
+app.use(passport.initialize());
 //MEMO: handlebars es un motor de plantillas que simula un front basico
 app.engine("handlebars", handlebars.engine()); // 1 - inicializar
 app.set("views", `${__dirname}/src/views`); // 2 - setear la ruta de las vistas
