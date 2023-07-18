@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { userModel } from "../daos/mongo/models/users.model.js";
+import { createHash, isValidPassword } from "../utils/bcrypt.js";
 
 const router = Router();
 
@@ -17,7 +18,7 @@ router.post("/register", async (req, res) => {
       last_name,
       email,
       age,
-      password,
+      password: createHash(password),
     });
     res.status(200).send({ status: "success", message: "register ok" });
   } catch (error) {
@@ -31,9 +32,13 @@ router.post("/login", async (req, res) => {
 
   const user = await userModel.findOne({
     email: email,
-    password: password,
   });
-  if (!user) return res.status(400).send({ error: "user not exist" });
+  if (!user) return res.status(404).send({ error: "user not found" });
+
+  if (!isValidPassword(user, password))
+    return res.status(403).send({ error: "incorrect password" });
+
+  delete user.password; // IMPORTANTE:  borrar el password porque es un dato sensible
 
   try {
     req.session.user = {
@@ -52,6 +57,25 @@ router.post("/logout", async (req, res) => {
   try {
     req.session.destroy();
     res.status(200).send({ status: "success", message: "Logout OK!" });
+  } catch (error) {
+    res.status(500).send({ error: error.message });
+  }
+});
+
+router.post("/restartPassword", async (req, res) => {
+  const { email, password } = req.body;
+
+  const user = await userModel.findOne({ email: email });
+  if (!user) return res.status(404).send({ error: "user not found" });
+
+  const newPass = createHash(password);
+
+  try {
+    const result = await userModel.updateOne(
+      { _id: user._id },
+      { $set: { password: newPass } }
+    );
+    res.status(200).send({ status: "success", message: "update ok" });
   } catch (error) {
     res.status(500).send({ error: error.message });
   }

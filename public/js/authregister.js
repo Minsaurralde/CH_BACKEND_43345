@@ -1,5 +1,26 @@
 const form = document.getElementById("registerForm");
 
+const modalSuccess = () => {
+  Swal.fire({
+    icon: "success",
+    title: "Register success",
+    showCancelButton: true,
+    confirmButtonText: "Go to Login",
+    cancelButtonText: `Register another account`,
+  }).then((option) => {
+    if (option.isConfirmed) {
+      window.location.replace("/login");
+    }
+  });
+};
+const modalError = () => {
+  Swal.fire({
+    icon: "error",
+    title: "Oops...",
+    text: "Something went wrong!",
+  });
+};
+
 form.addEventListener("submit", (e) => {
   e.preventDefault();
   const data = new FormData(form);
@@ -12,7 +33,13 @@ form.addEventListener("submit", (e) => {
       "Content-Type": "application/json",
     },
   })
-    .then((result) => result.json())
-    .then((json) => console.log(json))
-    .catch((error) => console.log(error));
+    .then((result) => {
+      form.reset();
+      console.log(result);
+      modalSuccess();
+    })
+    .catch((error) => {
+      console.log(error);
+      modalError();
+    });
 });
