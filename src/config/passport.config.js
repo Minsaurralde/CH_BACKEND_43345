@@ -6,6 +6,7 @@ import {
   GITHUB_CLIENT_ID,
   GITHUB_CLIENT_SECRET,
 } from "../constants/enviorments.js";
+import { createHash } from "../utils/bcrypt.js";
 
 export const intializePassport = () => {
   passport.use(
@@ -25,7 +26,7 @@ export const intializePassport = () => {
             last_name: "test lastname",
             email: profile.profileUrl,
             age: 25,
-            password: "1234",
+            password: createHash("1234"),
           };
           const result = await userModel.create(newUser);
           done(null, result);
