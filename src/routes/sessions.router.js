@@ -1,7 +1,10 @@
 import { Router } from "express";
+import passport from "passport";
+
 import { userModel } from "../daos/mongo/models/users.model.js";
 import { createHash, isValidPassword } from "../utils/bcrypt.js";
-import passport from "passport";
+import { passportCall } from "../middleware/passportCall.js";
+import { authorization } from "../middleware/authorization.js";
 
 const router = Router();
 
@@ -62,6 +65,15 @@ router.post("/logout", async (req, res) => {
     res.status(500).send({ error: error.message });
   }
 });
+
+router.get(
+  "/current",
+  passportCall(["session", "github"]),
+  authorization("user"),
+  (req, res) => {
+    res.send(req.user);
+  }
+);
 
 router.post("/restartPassword", async (req, res) => {
   const { email, password } = req.body;

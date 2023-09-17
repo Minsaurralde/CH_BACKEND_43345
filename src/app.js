@@ -28,6 +28,7 @@ app.use(express.json());
 app.use(express.static(`${__dirname}/public`));
 
 intializePassport();
+app.use(passport.initialize());
 
 const DBconection = mongoose.connect(mongoUri);
 app.use(
@@ -43,7 +44,6 @@ app.use(
   })
 );
 
-app.use(passport.initialize());
 //MEMO: handlebars es un motor de plantillas que simula un front basico
 app.engine("handlebars", handlebars.engine()); // 1 - inicializar
 app.set("views", `${__dirname}/src/views`); // 2 - setear la ruta de las vistas
