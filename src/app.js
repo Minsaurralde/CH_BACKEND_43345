@@ -15,19 +15,26 @@ import ProductManager from "./daos/mongo/class/ProductManager.js";
 import mongoUri from "./daos/mongo/constants/mongourl.js";
 import MsgManager from "./daos/mongo/class/MsgManager.js";
 import __dirname from "./constants/dirnames.js";
-import { intializePassport } from "./config/passport.config.js";
 import passport from "passport";
+import cookieParser from "cookie-parser";
+import { initializePassportJWT } from "./config/jwt.passport.js";
+import { initializePassportLocal } from "./config/local.passport.js";
+import { intializePassportGithub } from "./config/github.passport.js";
 
 const app = express();
 
 //MEMO: "urlencoded" y "json" middlewate de express necesario para obtener información de los query parameters y leer req json
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-
 // Indicamos que el public es estatico. En la ruta raiz se mostrara el index.html
 app.use(express.static(`${__dirname}/public`));
 
-intializePassport();
+// Indicamos que vamos a trabajar con cookies
+app.use(cookieParser());
+
+initializePassportLocal();
+initializePassportJWT();
+intializePassportGithub();
 app.use(passport.initialize());
 
 const DBconection = mongoose.connect(mongoUri);
